@@ -12,10 +12,10 @@
         android:text="@string/Playlist_maker"
         android:textColor="@color/white"
         android:textSize="@dimen/TopText"
-
+        android:textStyle="bold"
         android:paddingTop="14dp"
-        android:paddingStart="16dp"
-        android:End="210dp">
+        android:paddingStart="16dp">
+
 
     </TextView>
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
