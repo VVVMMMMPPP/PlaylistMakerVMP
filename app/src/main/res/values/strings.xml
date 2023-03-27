@@ -7,7 +7,7 @@
     <string name="Settings">Настройки</string>
     <string name="dark_theme">Темная тема</string>
     <string name="app_share">Поделиться приложением</string>
-<string name="support">Написать в поддержку</string>
+    <string name="support">Написать в поддержку</string>
     <string name="user_rules">Пользовательское соглашение</string>
     <string name="app_name">Playlist Maker</string>
-    </resources>
+</resources>

@@ -1,10 +1,11 @@
 package com.example.playlistmakervmp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,18 +13,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val buttonSearch = findViewById<Button>(R.id.search)
+        val buttonMedia=findViewById<Button>(R.id.media)
+        val buttonSettings=findViewById<Button>(R.id.settings)
+
+
+
         val buttonSearchClickListener: View.OnClickListener = object : View.OnClickListener {
             override fun onClick(v: View?) {
-                Toast.makeText(this@MainActivity, "Тут будет поиск!", Toast.LENGTH_SHORT).show()
+                val displayIntent=Intent(this@MainActivity,SearchActivity::class.java)
+                startActivity(displayIntent)
             }
         }
         buttonSearch.setOnClickListener(buttonSearchClickListener)
 
 
-        val buttonMedia=findViewById<Button>(R.id.media)
-        buttonMedia.setOnClickListener { Toast.makeText(this,"Тут будет Медиа!", Toast.LENGTH_SHORT).show() }
+        buttonMedia.setOnClickListener { val displayIntent=Intent(this,MediaActivity::class.java)
+            startActivity(displayIntent) }
 
-        val buttonSettings=findViewById<Button>(R.id.settings)
-        buttonSettings.setOnClickListener { Toast.makeText(this,"Тут будут настройки!", Toast.LENGTH_SHORT).show() }
+
+        buttonSettings.setOnClickListener { val displayIntent=Intent(this,SettingsActivity::class.java)
+            startActivity(displayIntent)  }
     }
 }
