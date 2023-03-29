@@ -63,7 +63,7 @@
             app:cornerRadius="16dp"
             app:iconPadding="10dp"
             android:textAllCaps="false"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="@dimen/Margin16"/>
         <Button
             android:id="@+id/settings"
             android:layout_width="match_parent"
@@ -74,12 +74,12 @@
             android:textColor="@color/MainMenuButton"
             android:backgroundTint="@color/white"
             android:layout_marginStart="17dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/Margin16"
             app:icon="@drawable/settings"
             app:iconGravity="textStart"
             app:iconTint="@color/MainMenuButton"
             app:iconPadding="10dp"
-            app:cornerRadius="16dp"
+            app:cornerRadius="@dimen/Margin16"
             android:textAllCaps="false"
             android:layout_marginBottom="28dp"/>
 

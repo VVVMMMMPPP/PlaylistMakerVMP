@@ -2,5 +2,10 @@
 <resources>
     <dimen name="TopText">22sp</dimen>
     <dimen name="LowerText">16sp</dimen>
+    <dimen name="margin20">20dp"</dimen>
+<dimen name="Margin16">16dp</dimen>
+    <dimen name="Margin21">21dp</dimen>
+    <dimen name="Margin0">0dp</dimen>
+    <dimen name="Margin48">40dp</dimen>
 
 </resources>
