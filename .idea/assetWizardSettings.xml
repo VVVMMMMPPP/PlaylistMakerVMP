@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="arrow_forward" />
-                            <entry key="sourceFile" value="C:\Users\123\AndroidStudioProjects\PlaylistMakerVMP\app\src\main\res\drawable\arrow_forward.svg" />
+                            <entry key="outputName" value="method_draw_image" />
+                            <entry key="sourceFile" value="C:\Users\123\AndroidStudioProjects\PlaylistMakerVMP\app\src\main\res\drawable\method-draw-image.svg" />
                           </map>
                         </option>
                       </PersistentState>
