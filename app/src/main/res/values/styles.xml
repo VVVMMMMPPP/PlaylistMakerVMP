@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MainMenuBackgroundColor">
+    <item name="android:background">@color/Menu_Day</item>
+    </style>
+    <style name="SettingsBackgroundColor">
+        <item name="background">@color/Menu_Night</item>
+    </style>
+
+    <style name="SettingsTitleTextColor">
+        <item name="android:textColor">@color/MainMenuButton</item>
+    </style>
+
+
+    <style name="ActivityMainButtons" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+
+
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:backgroundTint">@color/white</item>
+    <item name="android:textColor">@color/MainMenuButton</item>
+    <item name="android:textSize">@dimen/TopText</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:layout_marginStart">17dp</item>
+    <item name="android:layout_marginEnd">@dimen/Margin16</item>
+    <item name="android:fontFamily">@font/ys_display_medium</item>
+</style>
+
+
+
+
+
+    <style name="SettingsScreenTextView">
+
+
+        <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginTop">@dimen/Margin21</item>
+    <item name="android:layout_marginBottom">@dimen/Margin21</item>
+    <item name="android:layout_marginLeft">@dimen/Margin16</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:textSize">@dimen/LowerText</item>
+    <item name="android:fontFamily">@font/ys_display_regular</item>
+</style>
+
+
+    <style name="IconColors">
+        <item name="android:tint">#AEAFB4</item>
+
+    </style>
+
+    <style name="BackIconColor">
+        <item name="android:tint">@color/Menu_Night</item>
+    </style>
+
+
+    <style name="editTextStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="android:textColorHint">@color/black</item>
+
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">@color/black</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+</resources>
