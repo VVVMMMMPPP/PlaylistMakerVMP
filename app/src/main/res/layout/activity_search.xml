@@ -9,10 +9,11 @@
 
     <ImageView
         android:id="@+id/back"
+        style="@style/IconColors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/margin20"
+        android:layout_marginTop="@dimen/margin20"
         android:contentDescription="@string/search"
         android:src="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +22,6 @@
     <TextView
         android:id="@+id/textView"
         style="@style/SettingsTitleTextColor"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
@@ -46,14 +46,13 @@
         android:maxLines="1"
         android:inputType="text"
         android:textColor="@color/black"
-        android:textColorHint="@color/black"
         android:layout_marginHorizontal="@dimen/Margin16"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin20"
         android:background="@drawable/rounded_edit_text"
         android:drawableStart="@drawable/search_small"
-        android:paddingStart="9dp"
-        android:paddingEnd="9dp"
-        android:drawablePadding="9dp"/>
+        android:paddingStart="@dimen/margin9"
+        android:paddingEnd="@dimen/margin9"
+        android:drawablePadding="@dimen/margin9"/>
     <ImageView
         android:id="@+id/clear_text"
         android:layout_width="wrap_content"
@@ -64,8 +63,8 @@
         android:contentDescription="@string/search"
         app:layout_constraintRight_toRightOf="@id/SearchEditText"
         app:layout_constraintTop_toTopOf="@id/SearchEditText"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginEnd="@dimen/margin12"
+        android:layout_marginTop="@dimen/margin12"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

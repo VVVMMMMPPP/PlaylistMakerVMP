@@ -11,25 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmakervmp.Track
 
-class TrackAdapter(private val tracks: List<Track>) : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
-    class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class TrackAdapter(private val tracks: List<Track>) : RecyclerView.Adapter<TrackViewHolder>() {
 
-        private val sourceName: TextView = itemView.findViewById(R.id.track_name)
-        private val artistName: TextView = itemView.findViewById(R.id.track_artist)
-        private val trackLength: TextView = itemView.findViewById(R.id.track_length)
-        private val image: ImageView = itemView.findViewById(R.id.track_image)
-
-        fun bind(model: Track) {
-            sourceName.text = model.trackName
-            artistName.text = model.artistName
-            trackLength.text = model.trackTime
-            Glide.with(itemView.context).load(model.artworkUrl100)
-                .centerCrop()// Отрисовка фотографии артиста с помощью библиотеки Glide
-                .error(R.drawable.zaglushka)
-                .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.corners)))
-                .into(image)
-        }
-    }
 
     override fun getItemCount(): Int = tracks.size // Количество элементов в списке данных
 

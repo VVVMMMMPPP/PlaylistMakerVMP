@@ -14,13 +14,7 @@ import java.util.Objects
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmakervmp.TrackAdapter
 
-data class Track(
-    val id: Long,
-    val trackName: String,
-    val artistName: String,
-    val trackTime: String,
-    val artworkUrl100: String
-)
+
 
 class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
