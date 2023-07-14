@@ -4,14 +4,14 @@
     <dimen name="LowerText">16sp</dimen>
     <dimen name="margin20">20dp</dimen>
 <dimen name="Margin16">16dp</dimen>
-    <dimen name="Margin21">21dp</dimen>
+
     <dimen name="Margin0">0dp</dimen>
     <dimen name="Margin48">40dp</dimen>
     <dimen name="corners">2dp</dimen>
     <dimen name="picture_size">45dp</dimen>
     <dimen name="textview_size_small">11sp</dimen>
     <dimen name="dot_size">3dp</dimen>
-    <dimen name="margin9">9dp</dimen>
+    <dimen name="margin8">8dp</dimen>
     <dimen name="margin12">12dp</dimen>
 
 

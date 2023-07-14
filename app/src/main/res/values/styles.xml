@@ -36,8 +36,8 @@
 
         <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
-    <item name="android:layout_marginTop">@dimen/Margin21</item>
-    <item name="android:layout_marginBottom">@dimen/Margin21</item>
+    <item name="android:layout_marginTop">@dimen/margin20</item>
+    <item name="android:layout_marginBottom">@dimen/margin20</item>
     <item name="android:layout_marginLeft">@dimen/Margin16</item>
     <item name="android:textColor">@color/black</item>
     <item name="android:textSize">@dimen/LowerText</item>

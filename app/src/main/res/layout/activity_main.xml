@@ -1,72 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MainMenuBackgroundColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    style="@style/MainMenuBackgroundColor">
+    android:orientation="vertical">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/ys_display_medium"
+        android:paddingStart="18dp"
+        android:paddingTop="14dp"
         android:text="@string/Playlist_maker"
         android:textColor="@color/white"
         android:textSize="@dimen/TopText"
-        android:textStyle="bold"
-        android:paddingTop="14dp"
-        android:paddingStart="17dp">
+        android:textStyle="bold">
 
 
     </TextView>
+
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="40dp">
-
-
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
 
 
         <Button
             android:id="@+id/search"
             style="@style/ActivityMainButtons"
+            android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:text="@string/search"
+            app:cornerRadius="16dp"
             app:icon="@drawable/search"
             app:iconGravity="textStart"
-            app:iconTint="@color/MainMenuButton"
-            app:cornerRadius="16dp"
             app:iconPadding="10dp"
-            android:layout_marginBottom="16dp"/>
+            app:iconTint="@color/MainMenuButton" />
 
         <Button
             android:id="@+id/media"
             style="@style/ActivityMainButtons"
+            android:layout_marginBottom="@dimen/Margin16"
             android:layout_weight="1"
             android:text="@string/Media"
+            app:cornerRadius="16dp"
             app:icon="@drawable/media"
             app:iconGravity="textStart"
-            app:iconTint="@color/MainMenuButton"
-            app:cornerRadius="16dp"
             app:iconPadding="10dp"
-            android:layout_marginBottom="@dimen/Margin16"/>
+            app:iconTint="@color/MainMenuButton" />
+
         <Button
             android:id="@+id/settings"
             style="@style/ActivityMainButtons"
-            android:layout_weight="1"
             android:layout_marginBottom="28dp"
+            android:layout_weight="1"
             android:text="@string/Settings"
+            app:cornerRadius="@dimen/Margin16"
             app:icon="@drawable/settings"
             app:iconGravity="textStart"
-            app:iconTint="@color/MainMenuButton"
             app:iconPadding="10dp"
-            app:cornerRadius="@dimen/Margin16" />
-
-
-
-
-
+            app:iconTint="@color/MainMenuButton" />
 
 
     </LinearLayout>
