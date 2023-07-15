@@ -30,14 +30,10 @@
         <Button
             android:id="@+id/search"
             style="@style/ActivityMainButtons"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/Margin16"
             android:layout_weight="1"
             android:text="@string/search"
-            app:cornerRadius="16dp"
-            app:icon="@drawable/search"
-            app:iconGravity="textStart"
-            app:iconPadding="10dp"
-            app:iconTint="@color/MainMenuButton" />
+            app:icon="@drawable/search" />
 
         <Button
             android:id="@+id/media"
@@ -45,23 +41,16 @@
             android:layout_marginBottom="@dimen/Margin16"
             android:layout_weight="1"
             android:text="@string/Media"
-            app:cornerRadius="16dp"
-            app:icon="@drawable/media"
-            app:iconGravity="textStart"
-            app:iconPadding="10dp"
-            app:iconTint="@color/MainMenuButton" />
+
+            app:icon="@drawable/media" />
 
         <Button
             android:id="@+id/settings"
             style="@style/ActivityMainButtons"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="@dimen/margin28"
             android:layout_weight="1"
             android:text="@string/Settings"
-            app:cornerRadius="@dimen/Margin16"
-            app:icon="@drawable/settings"
-            app:iconGravity="textStart"
-            app:iconPadding="10dp"
-            app:iconTint="@color/MainMenuButton" />
+            app:icon="@drawable/settings" />
 
 
     </LinearLayout>

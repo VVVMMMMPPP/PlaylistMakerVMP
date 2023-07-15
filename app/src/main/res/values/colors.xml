@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="Menu_Day">#3772E7</color>
-    <color name="Menu_Night">#1A1B22</color>
+    <color name="blackbuttons">#1A1B22</color>
     <color name="MainMenuButton">#1A1B22</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

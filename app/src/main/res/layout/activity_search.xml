@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/margin20"
         android:contentDescription="@string/search"
         android:src="@drawable/back"
-        app:iconTint="?attr/colorSecondary"
+        app:iconTint="@color/blackbuttons"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +25,7 @@
         style="@style/SettingsTitleTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="@dimen/margin28"
         android:layout_marginTop="14dp"
         android:fontFamily="@font/ys_display_medium"
         android:text="@string/search"
