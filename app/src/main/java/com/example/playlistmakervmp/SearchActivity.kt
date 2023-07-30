@@ -1,21 +1,44 @@
 package com.example.playlistmakervmp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.ColorSpace.Model
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import java.util.Objects
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmakervmp.TrackAdapter
+import okhttp3.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
+import retrofit2.http.GET
+import retrofit2.http.Query
+
 
 
 class SearchActivity : AppCompatActivity() {
+    private var tracks = mutableListOf<Track>()
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://itunes.apple.com/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+   private val appleApiService = retrofit.create<AppleApiService>()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -23,6 +46,20 @@ class SearchActivity : AppCompatActivity() {
         val back = findViewById<ImageView>(R.id.back)
         val clearText = findViewById<ImageView>(R.id.clear_text)
         val editText = findViewById<EditText>(R.id.SearchEditText)
+        val placeholderError = findViewById<ImageView>(R.id.placeholder_error)
+        val placeholderErrorText = findViewById<TextView>(R.id.placeholder_error_text)
+        val placeholderErrorButton = findViewById<Button>(R.id.placeholder_error_button)
+        val placeholderNothingFound = findViewById<ImageView>(R.id.placeholder_nothing_found)
+        val placeholderNothingFoundText =
+            findViewById<TextView>(R.id.placeholder_nothing_found_text)
+
+        val trackAdapter = TrackAdapter(tracks)
+        val recyclerView: RecyclerView = findViewById(R.id.recycler)
+        recyclerView.adapter = trackAdapter
+
+
+
+
 
 
 
@@ -32,13 +69,18 @@ class SearchActivity : AppCompatActivity() {
 
         clearText.setOnClickListener {
             editText.setText("")
+            tracks.clear()
+            trackAdapter.notifyDataSetChanged()
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(editText.windowToken, 0)
+            placeholderError.visibility = View.GONE
+            placeholderErrorButton.visibility = View.GONE
+            placeholderErrorText.visibility = View.GONE
+            placeholderNothingFound.visibility = View.GONE
+            placeholderNothingFoundText.visibility = View.GONE
         }
-        val trackAdapter = TrackAdapter(tracks)
-        val recyclerView: RecyclerView = findViewById(R.id.recycler)
-        recyclerView.adapter = trackAdapter
+
 
 
         editText.addTextChangedListener(object : TextWatcher {
@@ -57,6 +99,84 @@ class SearchActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        fun searchTracks() {
+            appleApiService.search(editText.text.toString())
+                .enqueue(object : Callback<TracksResponse> {
+
+                    override fun onResponse(
+                        call: retrofit2.Call<TracksResponse>,
+                        response: Response<TracksResponse>
+                    ) {
+                        if (response.code() == 200) {
+
+                            tracks.clear()
+                            trackAdapter.notifyDataSetChanged()
+                            if (response.body()?.results?.isNotEmpty() == true) {
+                                placeholderError.visibility = View.GONE
+                                placeholderErrorButton.visibility = View.GONE
+                                placeholderErrorText.visibility = View.GONE
+                                placeholderNothingFound.visibility = View.GONE
+                                placeholderNothingFoundText.visibility = View.GONE
+                                tracks.addAll(response.body()?.results!!)
+                                trackAdapter.notifyDataSetChanged()
+                            } else {
+                                runOnUiThread {
+                                    tracks.clear()
+                                    trackAdapter.notifyDataSetChanged()
+                                    placeholderError.visibility = View.GONE
+                                    placeholderErrorButton.visibility = View.GONE
+                                    placeholderErrorText.visibility = View.GONE
+                                    placeholderNothingFound.visibility = View.VISIBLE
+                                    placeholderNothingFoundText.visibility = View.VISIBLE
+                                }
+                            }
+                        } else {
+                            tracks.clear()
+                            trackAdapter.notifyDataSetChanged()
+                            runOnUiThread {
+                                placeholderError.visibility = View.VISIBLE
+                                placeholderErrorButton.visibility = View.VISIBLE
+                                placeholderErrorText.visibility = View.VISIBLE
+                                placeholderNothingFound.visibility = View.GONE
+                                placeholderNothingFoundText.visibility = View.GONE
+                            }
+                        }
+                    }
+
+
+                    override fun onFailure(call: retrofit2.Call<TracksResponse>, t:Throwable) {
+                        runOnUiThread {
+                            tracks.clear()
+                            trackAdapter.notifyDataSetChanged()
+                            placeholderErrorText.setText(R.string.error400)
+                            placeholderError.visibility = View.VISIBLE
+                            placeholderErrorButton.visibility = View.VISIBLE
+                            placeholderErrorText.visibility = View.VISIBLE
+                            placeholderNothingFound.visibility = View.GONE
+                            placeholderNothingFoundText.visibility = View.GONE
+                        }
+                    }
+
+                })
+
+
+        }
+        editText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                searchTracks()
+                true
+            }
+            false
+        }
+        placeholderErrorButton.setOnClickListener {
+            placeholderError.visibility = View.GONE
+            placeholderErrorButton.visibility = View.GONE
+            placeholderErrorText.visibility = View.GONE
+            placeholderNothingFound.visibility = View.GONE
+            placeholderNothingFoundText.visibility = View.GONE
+            searchTracks()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -72,46 +192,10 @@ class SearchActivity : AppCompatActivity() {
         editText.setText(myValue)
     }
 
-    private var tracks = mutableListOf<Track>()
-
-    init {
-
-        tracks = (1..5).map {
-            Track(
-                id = it.toLong(),
-                trackName = TRACKNAMES[it - 1],
-                artistName = ARTISTS[it - 1],
-                trackTime = LENGTHS[it - 1],
-                artworkUrl100 = IMAGES[it - 1]
-            )
-        }.toMutableList()
-    }
-
-    companion object {
-        private val IMAGES = mutableListOf(
-            "https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg",
-            "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg",
-            "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg",
-            "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg",
-            "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"
-        )
-        private val TRACKNAMES = mutableListOf(
-            "Smells Like Teen Spirit",
-            "Billie Jean",
-            "Stayin' Alive",
-            "Whole Lotta Love",
-            "Sweet Child O'Mine"
-        )
-        private val ARTISTS = mutableListOf(
-            "Nirvana",
-            "Michael Jackson",
-            "Bee Gees",
-            "Led Zeppelin",
-            "Guns N' Roses"
-        )
-        private val LENGTHS = mutableListOf(
-            "5:01", "4:35", "4:10", "5:33", "5:03"
-        )
-    }
 }
+
+
+
+
+
 
