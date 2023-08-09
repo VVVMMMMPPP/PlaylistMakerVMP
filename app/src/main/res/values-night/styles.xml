@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
         <style name="MainMenuBackgroundColor">
-        <item name="android:background">@color/Menu_Night</item>
+        <item name="android:background">@color/blackbuttons</item>
          </style>
 
     <style name="SettingsBackgroundColor">
-        <item name="background">@color/Menu_Night</item>
+        <item name="background">@color/blackbuttons</item>
     </style>
     
     <style name="SettingsTitleTextColor">
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="editTextStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="android:textColorHint">@color/blackbuttons</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">@color/black</item>
+        <item name="android:shadowRadius">0</item>
+        <item name="drawableTint">@color/blackbuttons</item>
     </style>
 
 
@@ -25,13 +35,18 @@
                          <item name="android:layout_marginStart">17dp</item>
                         <item name="android:layout_marginEnd">@dimen/Margin16</item>
                         <item name="android:fontFamily">@font/ys_display_medium</item>
-</style>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">10dp</item>
+        <item name="iconTint">@color/MainMenuButton</item>
+        <item name="cornerRadius">16dp</item>
+
+    </style>
 
 <style name="SettingsScreenTextView">
       <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-     <item name="android:layout_marginTop">@dimen/Margin21</item>
-     <item name="android:layout_marginBottom">@dimen/Margin21</item>
+     <item name="android:layout_marginTop">@dimen/margin20</item>
+     <item name="android:layout_marginBottom">@dimen/margin20</item>
      <item name="android:layout_marginLeft">@dimen/Margin16</item>
         <item name="android:textColor">@color/white</item>
      <item name="android:textSize">@dimen/LowerText</item>
@@ -48,5 +63,24 @@
 
     <style name="BackIconColor">
         <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="LowerWordsTrack">
+
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="UpperWordsTrack">
+
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="refreshButton">
+
+        <item name="cornerRadius">54dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="backgroundTint">@color/white</item>
     </style>
 </resources>
