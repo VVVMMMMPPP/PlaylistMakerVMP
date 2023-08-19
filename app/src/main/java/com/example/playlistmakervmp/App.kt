@@ -3,6 +3,7 @@ package com.example.playlistmakervmp
 import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
+//Все изменения на 12 спринт тут, но что то у меня непонятное с коммитами произошло, прошу прощения!
 
 class App: Application() {
     var darkTheme = false
