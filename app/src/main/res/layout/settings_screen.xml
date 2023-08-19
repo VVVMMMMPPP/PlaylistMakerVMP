@@ -45,18 +45,12 @@
         android:layout_height="match_parent"
         android:layout_marginTop="40dp">
 
-        <TextView
-            style="@style/SettingsScreenTextView"
-            android:text="@string/dark_theme"></TextView>
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_compat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/margin8"
-            android:layout_marginEnd="@dimen/Margin16"
-            android:checked="false" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitcher"
+            android:text="Темная тема"
+            android:layout_marginHorizontal="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 
     </FrameLayout>
