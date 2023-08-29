@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -18,6 +19,8 @@ import android.widget.TextView
 import java.util.Objects
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmakervmp.TrackAdapter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import okhttp3.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,11 +29,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Query
-
+import retrofit2.http.Tag
 
 
 class SearchActivity : AppCompatActivity() {
     private var tracks = mutableListOf<Track>()
+    private var history = mutableListOf<Track>()
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://itunes.apple.com/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -43,6 +47,17 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+
+        val sharedPrefs = getSharedPreferences("prefs_track", MODE_PRIVATE)
+        var json = sharedPrefs.getString("TRACKS", "")
+        val listType = object : TypeToken<MutableList<Track>>() {}.type
+        try {
+            history = Gson().fromJson(json, listType)
+        } catch (e:Exception){
+        }
+
+        val searched = findViewById<TextView>(R.id.searched)
+        val clearHistory = findViewById<Button>(R.id.clear_history)
         val back = findViewById<ImageView>(R.id.back)
         val clearText = findViewById<ImageView>(R.id.clear_text)
         val editText = findViewById<EditText>(R.id.SearchEditText)
@@ -53,6 +68,7 @@ class SearchActivity : AppCompatActivity() {
         val placeholderNothingFoundText =
             findViewById<TextView>(R.id.placeholder_nothing_found_text)
 
+        val historyAdapter = TrackAdapter(history)
         val trackAdapter = TrackAdapter(tracks)
         val recyclerView: RecyclerView = findViewById(R.id.recycler)
         recyclerView.adapter = trackAdapter
@@ -79,6 +95,10 @@ class SearchActivity : AppCompatActivity() {
             placeholderErrorText.visibility = View.GONE
             placeholderNothingFound.visibility = View.GONE
             placeholderNothingFoundText.visibility = View.GONE
+            json = sharedPrefs.getString("TRACKS", "")
+            history = Gson().fromJson(json, listType)
+            recyclerView.adapter = historyAdapter
+            historyAdapter.notifyDataSetChanged()
         }
 
 
@@ -94,12 +114,42 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearText.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                if (history.size > 0) {
+
+                    searched.visibility = if (editText.hasFocus() and (s?.isEmpty() == true)) View.VISIBLE else View.GONE
+                    clearHistory.visibility =
+                        if (editText.hasFocus() and (s?.isEmpty() == true)) View.VISIBLE else View.GONE
+                    recyclerView.visibility =
+                        if (editText.hasFocus() and (s?.isEmpty() == true)) View.VISIBLE else View.GONE
+                    json = sharedPrefs.getString("TRACKS", "")
+                    history = Gson().fromJson(json, listType)
+                    recyclerView.adapter = historyAdapter
+                    historyAdapter.notifyDataSetChanged()
+                }
             }
 
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+
+                clearText.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                if (history.size > 0) {
+
+                    searched.visibility = if (editText.hasFocus() and (s?.isEmpty() == true)) View.VISIBLE else View.GONE
+                    clearHistory.visibility =
+                        if (editText.hasFocus() and (s?.isEmpty() == true)) View.VISIBLE else View.GONE
+                    recyclerView.visibility =
+                        if (editText.hasFocus() and (s?.isEmpty() == true)) View.VISIBLE else View.GONE
+                    json = sharedPrefs.getString("TRACKS", "")
+                    history = Gson().fromJson(json, listType)
+                    recyclerView.adapter = historyAdapter
+                    historyAdapter.notifyDataSetChanged()
+                }
+
+            }
         })
 
         fun searchTracks() {
+            recyclerView.visibility = View.VISIBLE
+            recyclerView.adapter = trackAdapter
             appleApiService.search(editText.text.toString())
                 .enqueue(object : Callback<TracksResponse> {
 
@@ -169,6 +219,7 @@ class SearchActivity : AppCompatActivity() {
             }
             false
         }
+
         placeholderErrorButton.setOnClickListener {
             placeholderError.visibility = View.GONE
             placeholderErrorButton.visibility = View.GONE
@@ -177,6 +228,66 @@ class SearchActivity : AppCompatActivity() {
             placeholderNothingFoundText.visibility = View.GONE
             searchTracks()
         }
+
+        trackAdapter.setOnTrackClickListener(object : OnTrackClickListener {
+            override fun onTrackClick(position: Int) {
+                val editor = sharedPrefs.edit()
+                if ((history.size <= 9) and !isTrackInHistory(tracks[position])) {
+                    history.add(0, tracks[position])
+                    json = Gson().toJsonTree(history).asJsonArray.toString()
+                    editor.putString("TRACKS", json).apply()
+                }
+                else if ((history.size == 10) and !isTrackInHistory(tracks[position])) {
+
+                    history.add(0, tracks[position])
+                    history.removeLast()
+                    json = Gson().toJsonTree(history).asJsonArray.toString()
+                    editor.putString("TRACKS", json).apply()
+                }
+                else if (isTrackInHistory(tracks[position])) {
+
+                    lateinit var songbuf: Track
+                    for (song in history) {
+                        if (song.trackId == tracks[position].trackId) {
+                            songbuf = song
+                        }
+                    }
+                    history.remove(songbuf)
+                    history.add(0, tracks[position])
+                    json = Gson().toJsonTree(history).asJsonArray.toString()
+                    editor.putString("TRACKS", json).apply()
+                }
+            }
+        })
+        editText.setOnFocusChangeListener { view, hasFocus ->
+            if (history.size > 0) {
+
+                searched.visibility = if (hasFocus and editText.text.isEmpty()) View.VISIBLE else View.GONE
+                clearHistory.visibility =
+                    if (hasFocus and editText.text.isEmpty()) View.VISIBLE else View.GONE
+                recyclerView.visibility = if (hasFocus and editText.text.isEmpty()) View.VISIBLE else View.GONE
+                json = sharedPrefs.getString("TRACKS", "")
+                history = Gson().fromJson(json, listType)
+                recyclerView.adapter = historyAdapter
+                historyAdapter.notifyDataSetChanged()
+
+            }
+        }
+        clearHistory.setOnClickListener {
+            history.clear()
+            historyAdapter.notifyDataSetChanged()
+            sharedPrefs.edit().putString("TRACKS", "").apply()
+            searched.visibility = View.GONE
+            clearHistory.visibility = View.GONE
+            recyclerView.visibility = View.GONE
+        }
+
+    }
+    fun isTrackInHistory(track: Track): Boolean {
+        for (song in history) {
+            if (track.trackId == song.trackId) return true
+        }
+        return false
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

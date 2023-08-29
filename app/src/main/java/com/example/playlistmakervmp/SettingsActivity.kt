@@ -1,5 +1,6 @@
 package com.example.playlistmakervmp
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +18,16 @@ class SettingsActivity : AppCompatActivity() {
         val backButton = findViewById<ImageView>(R.id.back)
         backButton.setOnClickListener { finish() }
 
+
+        val themeSwitcher = findViewById<com.google.android.material.switchmaterial.SwitchMaterial>(R.id.themeSwitcher)
+        themeSwitcher.isChecked = (applicationContext as App).getCurrentTheme()
+        themeSwitcher.setOnCheckedChangeListener { themeSwitcher, checked ->
+            val sharedPrefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            (applicationContext as App).switchTheme(checked)
+            sharedPrefs.edit()
+                .putBoolean("isDarkMode", checked)
+                .apply()
+        }
 
         val shareApp = findViewById<TextView>(R.id.shareApp)
         shareApp.setOnClickListener {

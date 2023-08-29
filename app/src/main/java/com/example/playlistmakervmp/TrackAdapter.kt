@@ -12,7 +12,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmakervmp.Track
 
 class TrackAdapter(private val tracks: List<Track>) : RecyclerView.Adapter<TrackViewHolder>() {
-
+    private var listener: OnTrackClickListener? = null
+    fun setOnTrackClickListener(listener: OnTrackClickListener) {
+        this.listener = listener
+    }
 
     override fun getItemCount(): Int = tracks.size // Количество элементов в списке данных
 
@@ -24,6 +27,9 @@ class TrackAdapter(private val tracks: List<Track>) : RecyclerView.Adapter<Track
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         val track = tracks[position]
         holder.bind(track)
+        holder.itemView.setOnClickListener {
+            listener?.onTrackClick(position)
+        }
     }
 
 }

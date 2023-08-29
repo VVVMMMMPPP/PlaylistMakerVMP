@@ -1,7 +1,7 @@
 package com.example.playlistmakervmp
 
 data class Track(
-    val id: Long,
+    val trackId: Long,
     val trackName: String,
     val artistName: String,
     val trackTimeMillis: String,
