@@ -96,7 +96,7 @@ class SearchActivity : AppCompatActivity() {
             placeholderNothingFound.visibility = View.GONE
             placeholderNothingFoundText.visibility = View.GONE
             json = sharedPrefs.getString("TRACKS", "")
-            history = Gson().fromJson(json, listType)
+            if (json != "") history = Gson().fromJson(json, listType)
             recyclerView.adapter = historyAdapter
             historyAdapter.notifyDataSetChanged()
         }
@@ -228,6 +228,17 @@ class SearchActivity : AppCompatActivity() {
             placeholderNothingFoundText.visibility = View.GONE
             searchTracks()
         }
+        historyAdapter.setOnTrackClickListener(object : OnTrackClickListener {
+            override fun onTrackClick(position: Int) {
+                val trackForMedia = getSharedPreferences("prefs_track", MODE_PRIVATE)
+                val trackJson = Gson().toJson(history[position])
+                trackForMedia.edit()
+                    .putString("MEDIA", trackJson.toString())
+                    .apply()
+                val displayIntent = Intent(applicationContext, MediaActivity::class.java)
+                startActivity(displayIntent)
+            }
+        })
 
         trackAdapter.setOnTrackClickListener(object : OnTrackClickListener {
             override fun onTrackClick(position: Int) {
@@ -257,6 +268,14 @@ class SearchActivity : AppCompatActivity() {
                     json = Gson().toJsonTree(history).asJsonArray.toString()
                     editor.putString("TRACKS", json).apply()
                 }
+                val trackForMedia = getSharedPreferences("prefs_track", MODE_PRIVATE)
+                val trackJson = Gson().toJson(tracks[position])
+                trackForMedia.edit()
+                    .putString("MEDIA", trackJson.toString())
+                    .apply()
+                val displayIntent = Intent(applicationContext, MediaActivity::class.java)
+                startActivity(displayIntent)
+
             }
         })
         editText.setOnFocusChangeListener { view, hasFocus ->
