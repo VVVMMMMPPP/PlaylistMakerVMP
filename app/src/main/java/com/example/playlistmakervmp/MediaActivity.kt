@@ -23,14 +23,12 @@ class MediaActivity : AppCompatActivity() {
 
         val sharedPrefs = getSharedPreferences("prefs_track", MODE_PRIVATE)
         val trackString = sharedPrefs.getString("MEDIA", "")
-        val trackJson = Gson().toJson(trackString)
-        val track = Gson().fromJson(trackString, Track::class.java)
 
+        val track = Gson().fromJson(trackString, Track::class.java)
         val trackName = findViewById<TextView>(R.id.track_name)
         val trackArtist = findViewById<TextView>(R.id.track_artist)
         val trackDuration = findViewById<TextView>(R.id.track_duration)
         val trackAlbum = findViewById<TextView>(R.id.track_album)
-        val trackYear = findViewById<TextView>(R.id.track_year)
         val trackGenre = findViewById<TextView>(R.id.track_genre)
         val trackCountry = findViewById<TextView>(R.id.track_country)
         val trackCover = findViewById<ImageView>(R.id.track_cover)
