@@ -16,6 +16,8 @@
     <dimen name="margin22">22dp</dimen>
     <dimen name="margin28">28dp</dimen>
     <dimen name="margin24">24dp</dimen>
+    <dimen name="corners_cover">8dp</dimen>
+    <dimen name="guideline_dimen">24dp</dimen>
 
 
 </resources>

@@ -102,5 +102,9 @@
 
     </style>
 
+    <style name="trackPlaceholder">
+        <item name="cornerRadius">8dp</item>
+    </style>
+
 
 </resources>
