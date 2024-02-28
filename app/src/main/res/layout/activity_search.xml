@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="SearchActivity">
+    tools:context=".SearchActivity">
 
     <ImageView
         android:id="@+id/back"
@@ -188,6 +188,17 @@
         android:textAllCaps="false"
         android:letterSpacing="0"
         android:textAlignment="center"
+        android:visibility="gone"
+        />
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:indeterminateTint="@color/Menu_Day"
+        app:layout_constraintTop_toBottomOf="@id/SearchEditText"
+        android:layout_marginTop="148dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
         />
 

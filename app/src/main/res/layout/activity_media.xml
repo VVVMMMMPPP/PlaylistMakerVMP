@@ -120,7 +120,7 @@
             style="@style/textUsual"
             app:layout_constraintTop_toBottomOf="@id/playButton"
             android:layout_marginTop="4dp"
-            android:text="0:30"
+            android:text="0:00"
             app:layout_constraintStart_toStartOf="@id/leftBorder"
             app:layout_constraintEnd_toEndOf="@id/rightBorder"
             android:textAlignment="center"
