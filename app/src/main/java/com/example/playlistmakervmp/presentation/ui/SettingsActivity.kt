@@ -1,14 +1,14 @@
-package com.example.playlistmakervmp
+package com.example.playlistmakervmp.presentation.ui
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import com.google.android.material.switchmaterial.SwitchMaterial
+import com.example.playlistmakervmp.App
+import com.example.playlistmakervmp.R
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,9 @@ class SettingsActivity : AppCompatActivity() {
         backButton.setOnClickListener { finish() }
 
 
-        val themeSwitcher = findViewById<com.google.android.material.switchmaterial.SwitchMaterial>(R.id.themeSwitcher)
+        val themeSwitcher = findViewById<com.google.android.material.switchmaterial.SwitchMaterial>(
+            R.id.themeSwitcher
+        )
         themeSwitcher.isChecked = (applicationContext as App).getCurrentTheme()
         themeSwitcher.setOnCheckedChangeListener { themeSwitcher, checked ->
             val sharedPrefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)

@@ -1,4 +1,4 @@
-package com.example.playlistmakervmp
+package com.example.playlistmakervmp.presentation.ui
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
@@ -25,6 +25,11 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmakervmp.*
+import com.example.playlistmakervmp.data.network.AppleApiService
+import com.example.playlistmakervmp.domain.model.Track
+import com.example.playlistmakervmp.domain.model.TracksResponse
+import com.example.playlistmakervmp.presentation.TrackAdapter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Call
@@ -58,6 +63,16 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 1000L
+        const val EXTRA_TRACK_ID = "trackId"
+        const val EXTRA_TRACK_NAME = "trackName"
+        const val EXTRA_ARTIST_NAME = "artistName"
+        const val EXTRA_TRACK_TIME = "trackTimeMillis"
+        const val EXTRA_TRACK_COVER = "trackCover"
+        const val EXTRA_COLLECTION_NAME = "collectionName"
+        const val EXTRA_RELEASE_DATE = "releaseDate"
+        const val EXTRA_PRIMARY_GENRE_NAME = "primaryGenreName"
+        const val EXTRA_COUNTRY = "country"
+        const val EXTRA_PREVIEW = "previewUrl"
     }
     private val searchRunnable = Runnable { searchTracks() }
     private val handler = Handler(Looper.getMainLooper())
@@ -175,13 +190,21 @@ class SearchActivity : AppCompatActivity() {
         historyAdapter.setOnTrackClickListener(object : OnTrackClickListener {
             override fun onTrackClick(position: Int) {
                 if (clickDebounce()) {
-                    val trackForMedia = getSharedPreferences("prefs_track", MODE_PRIVATE)
-                    val trackJson = Gson().toJson(history[position])
-                    trackForMedia.edit()
-                        .putString("MEDIA", trackJson.toString())
-                        .apply()
-                    val displayIntent = Intent(applicationContext, MediaActivity::class.java)
-                    startActivity(displayIntent)
+                    val intent = Intent(this@SearchActivity, MediaActivity::class.java).apply {
+                        putExtra(EXTRA_TRACK_ID, history[position].trackId)
+                        putExtra(EXTRA_TRACK_NAME, history[position].trackName)
+                        putExtra(EXTRA_ARTIST_NAME, history[position].artistName)
+                        putExtra(EXTRA_TRACK_TIME, history[position].trackTimeMillis)
+                        putExtra(EXTRA_TRACK_COVER, history[position].artworkUrl100)
+                        putExtra(EXTRA_COLLECTION_NAME, history[position].collectionName)
+                        putExtra(EXTRA_RELEASE_DATE, history[position].releaseDate)
+                        putExtra(EXTRA_PRIMARY_GENRE_NAME, history[position].primaryGenreName)
+                        putExtra(EXTRA_COUNTRY, history[position].country)
+                        putExtra(EXTRA_PREVIEW, history[position].previewUrl)
+                        Log.d(TAG, "Track: ${history[position]}")
+                    }
+                    startActivity(intent)
+
                 }
             }
         })
@@ -190,6 +213,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onTrackClick(position: Int) {
                 if (clickDebounce()) {
                     val editor = sharedPrefs.edit()
+                    val intent = Intent(this@SearchActivity, MediaActivity::class.java)
                     if ((history.size <= 9) and !isTrackInHistory(tracks[position])) {
                         history.add(0, tracks[position])
                         json = Gson().toJsonTree(history).asJsonArray.toString()
@@ -215,13 +239,20 @@ class SearchActivity : AppCompatActivity() {
                         editor.putString("TRACKS", json).apply()
                     }
 
-                    val trackForMedia = getSharedPreferences("prefs_track", MODE_PRIVATE)
-                    val trackJson = Gson().toJson(tracks[position])
-                    trackForMedia.edit()
-                        .putString("MEDIA", trackJson.toString())
-                        .apply()
-                    val displayIntent = Intent(applicationContext, MediaActivity::class.java)
-                    startActivity(displayIntent)
+                    intent.apply {
+                        putExtra(EXTRA_TRACK_ID, tracks[position].trackId)
+                        putExtra(EXTRA_TRACK_NAME, tracks[position].trackName)
+                        putExtra(EXTRA_ARTIST_NAME, tracks[position].artistName)
+                        putExtra(EXTRA_TRACK_TIME, tracks[position].trackTimeMillis)
+                        putExtra(EXTRA_TRACK_COVER, tracks[position].artworkUrl100)
+                        putExtra(EXTRA_COLLECTION_NAME, tracks[position].collectionName)
+                        putExtra(EXTRA_RELEASE_DATE, tracks[position].releaseDate)
+                        putExtra(EXTRA_PRIMARY_GENRE_NAME, tracks[position].primaryGenreName)
+                        putExtra(EXTRA_COUNTRY, tracks[position].country)
+                        putExtra(EXTRA_PREVIEW, tracks[position].previewUrl)
+                        Log.d(TAG, "Track: ${tracks[position]}")
+                    }
+                    startActivity(intent)
                 }
             }
         })

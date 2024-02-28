@@ -1,4 +1,4 @@
-package com.example.playlistmakervmp
+package com.example.playlistmakervmp.presentation.ui
 
 import android.content.SharedPreferences
 import android.media.MediaPlayer
@@ -11,11 +11,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.playlistmakervmp.R
+import com.example.playlistmakervmp.domain.model.Track
+import com.example.playlistmakervmp.presentation.MediaView
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MediaActivity : AppCompatActivity() {
+class MediaActivity: AppCompatActivity(), MediaContract {
     companion object {
         private const val STATE_DEFAULT = 0
         private const val STATE_PREPARED = 1
