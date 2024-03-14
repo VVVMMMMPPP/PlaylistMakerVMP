@@ -1,11 +1,11 @@
-package com.example.playlistmakervmp
+package com.example.playlistmakervmp.presentation.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.Window
 import android.widget.Button
+import com.example.playlistmakervmp.R
 
 
 class MainActivity : AppCompatActivity() {
